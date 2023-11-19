@@ -1,0 +1,36 @@
+bar:
+  height: 30
+  location: top
+  background: 444444cc
+  margin: 10
+  spacing: 5
+    #border:
+    #margin: 10
+
+      #  left:
+      #    - dwl:
+      #        number-of-tags: 9
+      #        dwl-info-filename: "/home/zero/dwl_info"
+      #        name-of-tags: [ I, II, III, IV, V, VI, VII, VIII, X ]
+      #        content:
+      #          list:
+      #            items:
+      #              - map:
+      #                  conditions:
+      #                    # default tag
+      #                    id == 0: {string: {text: "{layout} {title}"}}
+      #
+      #                    selected: {string: {text: "-> {name}"}}
+      #                    ~empty: {string: {text: "{name}"}}
+      #                    urgent: {string: {text: "=> {name} <="}}
+
+   bar:
+    - clock:
+        time-format: "%H:%M %Z"
+        content:
+          string: {text: "{date} {time}"}
+    - network:
+        name: wlan0
+        poll-interval: 250
+        content:
+          string: {text: "{signal}"}

@@ -1,0 +1,8 @@
+#!/bin/sh
+
+sleep 1 && {
+  yambar &
+  dbus-daemon --session --address=unix:path=$XDG_RUNTIME_DIR/bus &
+  pipewire &
+}
+  #swww init && swww img ~/Images/wallpapers/digital/gifs/waneella1.gif --transition-type none &

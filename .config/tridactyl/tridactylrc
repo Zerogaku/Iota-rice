@@ -1,0 +1,3 @@
+set colorscheme custom
+set editorcmd $TERMINAL -T tridactyl -e nvim 
+

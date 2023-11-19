@@ -1,0 +1,6 @@
+#!/bin/sh
+
+#exec dwl -s 'autorun'
+#autorun &
+exec dwl > /tmp/dwl_info
+#dwl -s 'dwlb'

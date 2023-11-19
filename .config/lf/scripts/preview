@@ -1,0 +1,11 @@
+#!/bin/sh
+
+case "$(file -Lb --mime-type -- "$1")" in
+    image/*)
+        chafa --animate none -f sixels -s "$2x$3" "$1"
+        exit 1
+        ;;
+    *)
+        cat "$1"
+        ;;
+esac

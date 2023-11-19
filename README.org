@@ -1,0 +1,26 @@
+#+title: Wayland rice
+#+begin_src shell
+██╗ ██████╗ ████████╗ █████╗
+██║██╔═══██╗╚══██╔══╝██╔══██╗
+██║██║   ██║   ██║   ███████║
+██║██║   ██║   ██║   ██╔══██║
+██║╚██████╔╝   ██║   ██║  ██║
+╚═╝ ╚═════╝    ╚═╝   ╚═╝  ╚═╝
+#+end_src
+
+Dots for a minimal and functional wayland configuration.
+
+* current dependencies
+- foot (extra repos)
+- yambar-wayland
+- emacs-wayland
+- lf
+- pipewire
+- wireplumber
+- firefox (tridactyl, ublock, auto tab discard)
+- tofi
+- mako
+- nvim
+- zathura
+* to be placed in separate repositories
+- dwl

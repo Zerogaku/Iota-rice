@@ -1,0 +1,205 @@
+icon: &icon {font: JetBrainsMono NF:size=14, margin: 4}
+occupied: &occupied {foreground: ccddffff, margin: 4}
+focused: &focused {foreground: 30cca0ff, margin: 4, deco: {underline: {color: 30cca0ff, size: 2}}}
+empty: &empty {foreground: 424850ff, margin: 4}
+warning: &warning {foreground: fae9beff}
+seriouswarning: &seriouswarning {foreground: fabed1ff}
+monfocused: &monfocused {foreground: 30cca0ff}
+monunfocused: &monunfocused {foreground: 424850ff}
+
+
+# MODULE COLOR PRESETS
+
+modulestyle: &modulestyle
+  margin: 10
+  deco:
+    stack:
+      - background: {color: 000000ff }
+
+#networkbg: &networkbg
+#  margin: 10
+#  deco:
+#    stack:
+#      - background: {color: DC143Cff }
+
+inactivetag: &inactivetag
+  margin: 16
+  deco:
+    stack:
+      - background: {color: 000000ff }
+
+activetag: &activetag
+  margin: 16
+  deco:
+    stack:
+        - background: {color: 000000ff }
+        #- border: {color: 000000ff, size: 1 }
+        - underline: {color: 30cca0ff, size: 3}
+        #- overline: {color: 30cca0ff, size: 2}
+
+playing: &playing
+  margin: 10
+  deco:
+    stack:
+      - background: {color: 000000ff }
+      - overline: {color: 4169e1ff, size: 3}
+
+paused: &paused
+  margin: 10
+  deco:
+    stack:
+      - background: {color: 000000ff }
+      - overline: {color: ff5733ff, size: 3}
+
+bar:
+  height: 35
+  location: top
+  background: 0a0f1400 # lol
+  font: JetBrainsMono NF-12
+  foreground: ffffffff
+  margin: 10
+  border:
+    #left-margin: 10
+    #right-margin: 10
+    top-margin: 10
+  left:
+    - dwl:
+        number-of-tags: 9
+        dwl-info-filename: "/tmp/dwl_info"
+        name-of-tags: [ I, II, III, IV, V, VI, VII, VIII, X ]
+        content:
+          list:
+            items:
+              - map:
+                  conditions:
+                    # default tag
+                    id == 0: 
+                      - string:
+                          <<: *inactivetag
+                          text: "{layout}"
+                    selected: 
+                      - string:
+                          <<: *activetag
+                          text: "{name}"
+                    ~empty: 
+                      - string:
+                          <<: *inactivetag
+                          text: "{name}"
+                    urgent: {string: {text: "=> {name} <="}}
+  center:
+    - mpd:
+        host: localhost
+        port: 6600
+        content:
+          list: 
+            items:
+               - map:
+                   conditions:
+                     state == playing: {string: {text: "{title}", max: 60, <<: *playing}}
+                     state == paused: {string: {text: "{title}", max: 60, <<: *paused}}
+  right:
+    - pulse:
+         content:
+            list:
+              <<: *modulestyle
+              on-click:
+                wheel-up: wpctl set-volume @DEFAULT_AUDIO_SINK@ 5%+
+                wheel-down: wpctl set-volume @DEFAULT_AUDIO_SINK@ 5%-
+              items:
+                - map:
+                    conditions:
+                      sink_muted: {string: {text: 󰖁, <<: *icon}}
+                      ~sink_muted:
+                        - ramp:
+                            tag: sink_percent
+                            items:
+                              - string: {text: 󰕿 , <<: *icon}
+                              - string: {text: 󰖀 , <<: *icon}
+                              - string: {text: 󰕾 , <<: *icon}
+                - map:
+                    default: {string: {text: "{sink_percent}%"}}
+                    conditions:
+                      sink_percent >= 0: {string: {text: "{sink_percent}%"}}
+    - cpu:
+        poll-interval: 2500
+        content:
+          map:
+            conditions:
+              id >= 0:
+                - ramp:
+                    <<: *modulestyle
+                    tag: cpu
+                    items:
+                      - string: {text: ▁}
+                      - string: {text: ▂}
+                      - string: {text: ▃}
+                      - string: {text: ▄}
+                      - string: {text: ▅}
+                      - string: {text: ▆}
+                      - string: {text: ▇}
+                      - string: {text: █}
+    - clock:
+        time-format: "%H:%M"
+        date-format: "%a %m/%d/%y"
+        content:
+          string: {text: "  {date} {time}", <<: *modulestyle}
+
+    - battery:
+        name: BAT1
+        poll-interval: 500 # 2 minutes
+        content:
+          list:
+            <<: *modulestyle
+            items:
+              - map:
+                  default:
+                    ramp:
+                      tag: capacity
+                      items:
+                        - string: {text: "󰁺", <<: *icon}
+                        - string: {text: "󰁻", <<: *icon}
+                        - string: {text: "󰁼", <<: *icon}
+                        - string: {text: "󰁽", <<: *icon}
+                        - string: {text: "󰁾", <<: *icon}
+                        - string: {text: "󰁿", <<: *icon}
+                        - string: {text: "󰂀", <<: *icon}
+                        - string: {text: "󰂁", <<: *icon}
+                        - string: {text: "󰂂", <<: *icon}
+                  conditions:
+                    state == not-charging: {string: {text: 󱟢, <<: *icon}}
+                    state == unknown: {string: {text: 󰂑, <<: *icon}}
+                    state == charging:
+                      ramp:
+                        tag: capacity
+                        items:
+                          - string: {text: 󰢜, <<: *icon}
+                          - string: {text: 󰂆, <<: *icon}
+                          - string: {text: 󰂇, <<: *icon}
+                          - string: {text: 󰂈, <<: *icon}
+                          - string: {text: 󰢝, <<: *icon}
+                          - string: {text: 󰂉, <<: *icon}
+                          - string: {text: 󰢞, <<: *icon}
+                          - string: {text: 󰂊, <<: *icon}
+                          - string: {text: 󰂋, <<: *icon}
+              - map:
+                  default: {string: {text: "{capacity}%"}}
+                  conditions:
+                    capacity < 5: {string: {text: "{capacity}%", <<: *seriouswarning}}
+                    capacity < 20: {string: {text: "{capacity}%", <<: *warning}}
+
+    - network:
+        name: wlan0
+        poll-interval: 1000
+        content:
+          list:
+            <<: *modulestyle
+            items:
+              - map:
+                  default: {string: {text: 󰤭, <<: *icon}}
+                  conditions:
+                    state == up: {string: {text: 󰤨, <<: *icon}}
+              - map:
+                  default: {string: {text: "{signal} "}}
+                  conditions:
+                    signal < -80: {string: {text: "{signal} ", <<: *seriouswarning}}
+                    signal < -70: {string: {text: "{signal} ", <<: *warning}}

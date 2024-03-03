@@ -1,0 +1,13 @@
+#!/bin/sh
+# simple autostart application script used with startw if uncommented
+# can in theory be used in place of autostart patch, but less reliable
+
+sleep 0.5 && {
+  # pipewire &
+  # mpd &
+  yambar &
+  swww init &
+  # dbus-daemon --session --address=unix:path=$XDG_RUNTIME_DIR/bus &
+  # swww_randomize &
+}
+  #swww init && swww img ~/Images/wallpapers/digital/gifs/waneella1.gif --transition-type none &

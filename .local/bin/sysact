@@ -1,0 +1,24 @@
+#!/bin/sh
+
+# A dmenu wrapper script for system functions.
+export WM="dwl"
+case "$(readlink -f /sbin/init)" in
+	*systemd*) ctl='systemctl' ;;
+	*) ctl='loginctl' ;;
+esac
+
+wmpid(){ # This function is needed if there are multiple instances of the window manager.
+	tree="$(pstree -ps $$)"
+	tree="${tree#*$WM(}"
+	echo "${tree%%)*}"
+}
+
+case "$(printf " lock\n󰠜 leave $WM\n󱣻 hibernate\n󰜉 reboot\n shutdown\n󰒲 sleep" | tofi --fuzzy-match true --prompt-text 'Action: ')" in
+	' lock') waylock ;;
+	"󰠜 leave $WM") kill -TERM "$(wmpid)" ;;
+	'󱣻 hibernate') slock $ctl hibernate -i ;;
+	'󰒲 sleep') slock $ctl suspend -i ;;
+	'󰜉 reboot') $ctl reboot -i ;;
+	' shutdown') $ctl poweroff -i ;;
+	*) exit 1 ;;
+esac

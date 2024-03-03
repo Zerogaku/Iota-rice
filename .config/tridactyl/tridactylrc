@@ -1,0 +1,3 @@
+colors custom2
+set editorcmd $TERMINAL -T tridactyl -e nvim 
+set smoothscroll false

@@ -1,0 +1,6 @@
+#!/bin/sh
+
+#exec dwl -s 'autorun'
+#delayed_autostart &
+exec dwl > /tmp/dwl_info
+#dwl -s 'dwlb'

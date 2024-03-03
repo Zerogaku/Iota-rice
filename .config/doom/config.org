@@ -1,0 +1,63 @@
+#+TITLE: My config
+#+STARTUP: overview
+
+* Defaults
+** name
+#+begin_src emacs-lisp
+(setq user-full-name "Wim Veto"
+      user-mail-address "wimveto@gmail.com")
+#+end_src
+** font
+#+begin_src emacs-lisp
+(setq doom-font (font-spec :family "JetBrainsMono NF" :size 14))
+#+end_src
+** theme
+#+begin_src emacs-lisp
+(setq doom-theme 'doom-henna)
+#+end_src
+** relative line numbers
+#+begin_src emacs-lisp
+(setq display-line-numbers-type 'relative)
+#+end_src
+** transparency
+#+begin_src emacs-lisp
+(add-to-list 'default-frame-alist '(alpha-background . 95))
+#+end_src
+** bookmark file
+#+begin_src emacs-lisp
+(setq bookmark-default-file "~/.config/doom/bookmarks")
+#+end_src
+** projectile directory
+#+begin_src emacs-lisp
+(setq projectile-project-search-path '("~/Code/web/"))
+#+end_src
+** doom modeline
+#+begin_src emacs-lisp
+(setq doom-modeline-bar-width 5)
+;; (display-battery-mode 1)
+;; (setq doom-modeline-battery t)
+;; (display-time-mode 1)
+;; (setq display-time-format "%Y %b %d (%a) %R %p")
+;; (setq doom-modeline-time t)
+(setq doom-modeline-height 30)
+#+end_src
+** emacsclient
+#+begin_src emacs-lisp
+(after! persp-mode
+  (setq persp-emacsclient-init-frame-behaviour-override "main"))
+#+end_src
+* Org mode
+** org agenda
+#+begin_src emacs-lisp
+(after! org
+  (setq org-agenda-files
+        '("~/Org/agenda/agenda.org")))
+#+end_src
+
+* Evil
+#+begin_src emacs-lisp
+(use-package! evil-org
+  :config
+  (map! :map evil-org-mode-map
+        :i "C-k" #'evil-insert-digraph))
+#+end_src
